@@ -241,6 +241,7 @@
 			}
 		}
 
+
 		/* Responsive Design */
 		@media (max-width: 480px) {
 			.phone {
@@ -277,9 +278,37 @@
 			.linkLink {
 				font-size: 18px;
 			}
-
 			.lockScreen {
 				border-radius: 40px;
+				/* Burchaklarni moslashtirish */
+				backdrop-filter: blur(10px);
+			}
+
+			.time {
+				font-size: 48px;
+				/* Vaqtni kichiklashtirish */
+				margin-top: 60px;
+			}
+
+			.date {
+				font-size: 16px;
+				/* Sanani kichikroq o'lchamga moslashtirish */
+			}
+
+			.notifications {
+				margin-top: 380px;
+				/* Kichikroq ekranda joylashuvni moslash */
+				gap: 8px;
+				/* Bildirishnomalar orasidagi bo'shliqni qisqartirish */
+			}
+
+			.notification {
+				font-size: 14px;
+				padding: 8px;
+			}
+
+			.swipeToUnlock {
+				font-size: 12px;
 			}
 		}
 	</style>
