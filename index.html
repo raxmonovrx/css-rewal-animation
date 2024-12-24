@@ -27,7 +27,9 @@
 			padding: 10px;
 			border: 7px solid black;
 			border-radius: 65px;
-			position: relative;
+			overflow: hidden;
+			position: absolute;
+			z-index: 111111;
 		}
 
 		.camera {
@@ -41,6 +43,7 @@
 			top: 7px;
 			left: 50%;
 			transform: translateX(-50%);
+			z-index: 11111;
 		}
 
 		.swipe {
@@ -53,6 +56,7 @@
 			left: 50%;
 			transform: translateX(-50%);
 			cursor: pointer;
+			z-index: 11111;
 		}
 
 		.content {
@@ -139,6 +143,87 @@
 			text-decoration: none;
 		}
 
+		.lockScreen {
+			position: absolute;
+			color: #fff;
+			background-color: rgba(0, 0, 0, 0.6);
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			z-index: 1111;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Arial, sans-serif;
+			backdrop-filter: blur(15px);
+			transition: transform 0.5s;
+
+		}
+
+		.lockScreenContent {
+			text-align: center;
+			padding: 20px;
+			width: 100%;
+		}
+
+		.time {
+			font-size: 72px;
+			font-weight: 300;
+			margin-top: 80px;
+			margin-bottom: 5px;
+			text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+		}
+
+		.date {
+			font-size: 18px;
+			color: rgba(255, 255, 255, 0.7);
+			margin-bottom: 30px;
+		}
+
+		.notifications {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin-bottom: 20px;
+			margin-top: 450px;
+		}
+
+		.notification {
+			background: rgba(255, 255, 255, 0.2);
+			padding: 10px;
+			border-radius: 12px;
+			font-size: 16px;
+			color: #fff;
+			text-align: center;
+			width: 80%;
+			margin: 0 auto;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+		}
+
+		.swipeToUnlock {
+			margin-top: 20px;
+			font-size: 14px;
+			color: rgba(255, 255, 255, 0.6);
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			animation: swipe 1.5s infinite;
+		}
+
+		@keyframes swipe {
+
+			0%,
+			100% {
+				opacity: 0.5;
+				transform: translateX(0);
+			}
+
+			50% {
+				opacity: 1;
+				transform: translateX(10px);
+			}
+		}
+
 		@keyframes animateLogo {
 			to {
 				opacity: 1;
@@ -192,6 +277,10 @@
 			.linkLink {
 				font-size: 18px;
 			}
+
+			.lockScreen {
+				border-radius: 40px;
+			}
 		}
 	</style>
 	<title>Responsive iPhone</title>
@@ -200,6 +289,19 @@
 <body>
 	<div class="container">
 		<div class="phone">
+			<div class="lockScreen">
+				<div class="lockScreenContent">
+					<div class="time">00:00</div>
+					<div class="date">Monday, 10 May</div>
+					<div class="notifications">
+						<div class="notification">Instagram</div>
+						<div class="notification">Telegram</div>
+						<div class="notification">Twitter</div>
+					</div>
+					<div class="swipeToUnlock">Swipe to unlock →</div>
+				</div>
+			</div>
+
 			<span class="camera"></span>
 			<div class="content">
 
@@ -250,7 +352,46 @@
 
 		textElements.forEach(element => {
 			animateText(element)
-		});
+		})
+
+
+		const swipe = document.querySelector(".swipe")
+		const camera = document.querySelector(".camera")
+		let isLocked = true
+		swipe.addEventListener("click", () => {
+			const lockScreen = document.querySelector(".lockScreen")
+			lockScreen.style.transform = "translateY(-100%)"
+			isLocked = false
+			console.log('isLocked:', isLocked)
+		})
+
+		camera.addEventListener('dblclick', () => {
+			const lockScreen = document.querySelector(".lockScreen")
+			lockScreen.style.transform = "translateY(0)"
+			isLocked = true
+			console.log('isLocked:', isLocked)
+		})
+
+		const time = document.querySelector(".time")
+		const date = document.querySelector(".date")
+
+		function updateTime() {
+			const now = new Date()
+			const hours = now.getHours().toString().padStart(2, "0")
+			const minutes = now.getMinutes().toString().padStart(2, "0")
+			time.textContent = `${hours}:${minutes}`
+
+			const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+			const day = days[now.getDay()]
+			const dateOfMonth = now.getDate()
+			const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+			const month = months[now.getMonth()]
+			const year = now.getFullYear()
+			date.textContent = `${day}, ${dateOfMonth} ${month}`
+		}
+
+		updateTime()
+		setInterval(updateTime, 1000)
 	</script>
 	<script src="https://app.embed.im/snow.js" defer></script>
 </body>
